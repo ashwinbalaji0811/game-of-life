@@ -5,6 +5,10 @@ let rows;
 let board;
 let next;
 
+function openDraw() {
+    draw();
+}
+
 function setup() {
   createCanvas(854, 480);
   w = 10;
@@ -40,6 +44,8 @@ function draw() {
 
 // reset board when mouse is pressed
 function mousePressed() {
+  stroke(0);
+  board[parseInt(mouseX / 10)][parseInt(mouseY / 10)] = 1;
   init();
 }
 
@@ -50,7 +56,7 @@ function init() {
       // Lining the edges with 0s
       if (i == 0 || j == 0 || i == columns-1 || j == rows-1) board[i][j] = 0;
       // Filling the rest randomly
-      else board[i][j] = floor(random(2));
+      //else board[i][j] = floor(random(2));
       next[i][j] = 0;
     }
   }
