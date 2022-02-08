@@ -1,16 +1,20 @@
-
 let w;
 let columns;
 let rows;
 let board;
 let next;
 
-function openDraw() {
-    draw();
-}
-
 function setup() {
   createCanvas(854, 480);
+  radio = createRadio();
+  radio.option('Input');
+  radio.option('Simulate');
+  radio.option('Random');
+  radio.option('Reset');
+  radio.style('width', '400px');
+  slider = createSlider(1, 255, 100);
+  slider.position(10, 10);
+  slider.style('width', '80px');
   w = 10;
   // Calculate columns and rows
   columns = floor(width / w);
@@ -29,34 +33,89 @@ function setup() {
 }
 
 function draw() {
-  background(255);
-  generate();
-  for ( let i = 0; i < columns;i++) {
-    for ( let j = 0; j < rows;j++) {
-      if ((board[i][j] == 1)) fill(0);
-      else fill(255);
-      stroke(0);
-      rect(i * w, j * w, w-1, w-1);
+  clear();
+  let val = radio.value();
+  
+  let val2 = slider.value();
+  frameRate(val2);
+  
+  if(val == 'Simulate') {
+    generate();
+    for ( let i = 0; i < columns;i++) {
+      for ( let j = 0; j < rows;j++) {
+        if ((board[i][j] == 1)) fill(0);
+        else fill(255);
+        stroke(0);
+        rect(i * w, j * w, w-1, w-1);
+      }
     }
   }
-
+  if(val == 'Random') {
+    generate();
+    for ( let i = 0; i < columns;i++) {
+      for ( let j = 0; j < rows;j++) {
+        if ((board[i][j] == 1)) fill(0);
+        else fill(255);
+        stroke(0);
+        rect(i * w, j * w, w-1, w-1);
+      }
+    }
+  }
+  if(val == 'Input') {
+    background(255);
+    for ( let i = 0; i < columns;i++) {
+      for ( let j = 0; j < rows;j++) {
+        if ((board[i][j] == 1)) fill(0);
+        else fill(255);
+        stroke(0);
+        rect(i * w, j * w, w-1, w-1);
+      }
+    }
+  }
+  
+  if(val == 'Reset') {
+    for ( let i = 0; i < columns;i++) {
+      for ( let j = 0; j < rows;j++) {
+        board[i][j] = 0;
+      }
+    }
+    background(255);
+    for ( let i = 0; i < columns;i++) {
+      for ( let j = 0; j < rows;j++) {
+        if ((board[i][j] == 1)) fill(0);
+        else fill(255);
+        stroke(0);
+        rect(i * w, j * w, w-1, w-1);
+      }
+    }
+  }
 }
 
-// reset board when mouse is pressed
 function mousePressed() {
-  stroke(0);
-  board[parseInt(mouseX / 10)][parseInt(mouseY / 10)] = 1;
-  init();
+  let val = radio.value();
+  if(val == 'Random'){
+    init();
+  }
+  if(val == 'Input') {
+    stroke(0);
+    board[parseInt(mouseX / 10)][parseInt(mouseY / 10)] = 1;
+  }
 }
 
 // Fill board randomly
 function init() {
+  let val = radio.value();
   for (let i = 0; i < columns; i++) {
     for (let j = 0; j < rows; j++) {
       // Lining the edges with 0s
       if (i == 0 || j == 0 || i == columns-1 || j == rows-1) board[i][j] = 0;
       // Filling the rest randomly
-      //else board[i][j] = floor(random(2));
+      
+      else {
+        if(val == 'Random') {
+          board[i][j] = floor(random(2));
+        }
+      }
       next[i][j] = 0;
     }
   }
@@ -92,4 +151,3 @@ function generate() {
   board = next;
   next = temp;
 }
-
