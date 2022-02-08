@@ -5,7 +5,7 @@ let board;
 let next;
 
 function setup() {
-  createCanvas(854, 480);
+  createCanvas(854, 480); // change 854 , 480 to your resolution of liking
   radio = createRadio();
   radio.option('Input');
   radio.option('Simulate');
@@ -15,7 +15,7 @@ function setup() {
   slider = createSlider(1, 255, 100);
   slider.position(10, 10);
   slider.style('width', '80px');
-  w = 10;
+  w = 10; // change this value to change the size of a single cell
   // Calculate columns and rows
   columns = floor(width / w);
   rows = floor(height / w);
@@ -98,7 +98,7 @@ function mousePressed() {
   }
   if(val == 'Input') {
     stroke(0);
-    board[parseInt(mouseX / 10)][parseInt(mouseY / 10)] = 1;
+    board[parseInt(mouseX / w)][parseInt(mouseY / w)] = 1;
   }
 }
 
